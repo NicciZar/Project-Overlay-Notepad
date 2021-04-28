@@ -29,10 +29,22 @@ namespace Project_Overlay_Notepad
 
         public string DefaultTextBoxText = "Enter Text here...\nPress CTRL + H for Help";
 
+        public string AssVersion;
+
+        public string LocationAndName;
+
         public MainWindow()
         {
             InitializeComponent();
             textBox.Text = DefaultTextBoxText;
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            AssVersion = fvi.FileVersion;
+            
+
+            LocationAndName = System.Reflection.Assembly.GetEntryAssembly().Location;
+
+            this.Title = "Project Overlay Notepad " + AssVersion;
         }
 
         private void textBox_KeyDown(object sender, KeyEventArgs e)
@@ -41,6 +53,7 @@ namespace Project_Overlay_Notepad
             if ((e.Key == Key.S) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
             {
                 textBox.IsEnabled = false;
+                //ability to Save to a TextFile
 
                 SaveFileDialog saveFileDialog = new SaveFileDialog
                 {
@@ -59,6 +72,7 @@ namespace Project_Overlay_Notepad
             if ((e.Key == Key.L) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
             {
                 textBox.IsEnabled = false;
+                //ability to Load TextFiles into the Textbox
 
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
@@ -96,6 +110,7 @@ namespace Project_Overlay_Notepad
             if ((e.Key == Key.D) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
             {
                 textBox.IsEnabled = false;
+                //toggles DarkMode on/off
 
                 if (DarkMode == false)
                 {
@@ -114,10 +129,19 @@ namespace Project_Overlay_Notepad
                 textBox.IsEnabled = true;
             }
 
+            if ((e.Key == Key.N) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
+            {
+                textBox.IsEnabled = false;
+                //Opens new Window with current executable
+                System.Diagnostics.Process.Start(LocationAndName);
+                textBox.IsEnabled = true;
+            }
+
             if ((e.Key == Key.H) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
             {
                 textBox.IsEnabled = false;
-                MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\n\nMade by:\nNicolas HORST", "Helpmenu", MessageBoxButton.OK);
+                //Opens help menu
+                MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\nCTRL + N = New Window\n\nMade by:\nNicolas HORST\nVersion: " + AssVersion, "Helpmenu", MessageBoxButton.OK);
                 textBox.IsEnabled = true;
             }
 
