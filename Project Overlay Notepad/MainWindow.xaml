@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_Overlay_Notepad"
         mc:Ignorable="d"
-        Title="Overlay Notepad" Height="100" Width="300" Topmost="True" MinHeight="100" MinWidth="300" >
+        Title="Project Overlay Notepad" Height="100" Width="300" Topmost="True" MinHeight="100" MinWidth="300" >
     <Grid>
         <TextBox x:Name="textBox" Margin="0,0,0,0" Text="..." TextWrapping="NoWrap" AcceptsReturn="True" AllowDrop="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AcceptsTab="True" KeyDown="textBox_KeyDown" />
 

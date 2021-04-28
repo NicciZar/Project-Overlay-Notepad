@@ -29,10 +29,16 @@ namespace Project_Overlay_Notepad
 
         public string DefaultTextBoxText = "Enter Text here...\nPress CTRL + H for Help";
 
+        public string AssVersion;
+
         public MainWindow()
         {
             InitializeComponent();
             textBox.Text = DefaultTextBoxText;
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            AssVersion = fvi.FileVersion;
+            this.Title = "Project Overlay Notepad " + AssVersion;
         }
 
         private void textBox_KeyDown(object sender, KeyEventArgs e)
@@ -117,7 +123,7 @@ namespace Project_Overlay_Notepad
             if ((e.Key == Key.H) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
             {
                 textBox.IsEnabled = false;
-                MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\n\nMade by:\nNicolas HORST", "Helpmenu", MessageBoxButton.OK);
+                MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\n\nMade by:\nNicolas HORST\nVersion: " + AssVersion, "Helpmenu", MessageBoxButton.OK);
                 textBox.IsEnabled = true;
             }
 
