@@ -40,6 +40,7 @@ namespace Project_Overlay_Notepad
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             AssVersion = fvi.FileVersion;
+            textBox.FontSize = 12;
             
 
             LocationAndName = System.Reflection.Assembly.GetEntryAssembly().Location;
@@ -141,11 +142,26 @@ namespace Project_Overlay_Notepad
             {
                 textBox.IsEnabled = false;
                 //Opens help menu
-                MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\nCTRL + N = New Window\n\nMade by:\nNicolas HORST\nVersion: " + AssVersion, "Helpmenu", MessageBoxButton.OK);
+                MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\nCTRL + N = New Window\n\nMade by:\nNicolas HORST\nGitHub: \nNicciZar\nVersion: " + AssVersion, "Helpmenu", MessageBoxButton.OK);
                 textBox.IsEnabled = true;
             }
 
         }
 
+        private void textBox_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            try
+            {
+                if (e.Delta > 0) 
+                { textBox.FontSize++; }
+                else
+                { textBox.FontSize--; }
+            }
+            catch (Exception)
+            {
+                textBox.FontSize = 1;
+            }
+
+        }
     }
 }
