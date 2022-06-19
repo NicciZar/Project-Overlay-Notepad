@@ -141,7 +141,7 @@ namespace Project_Overlay_Notepad
             if ((e.Key == Key.H) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
             {
                 textBox.IsEnabled = false;
-                //Opens help menu
+                //Opens help/about menu
                 MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\nCTRL + N = New Window\n\nMade by:\nNicolas HORST\nGitHub: \nNicciZar\nVersion: " + AssVersion, "Helpmenu", MessageBoxButton.OK);
                 textBox.IsEnabled = true;
             }
@@ -152,6 +152,7 @@ namespace Project_Overlay_Notepad
         {
             try
             {
+                //Detects if Mousewheel scrolls down or up. If font size gets too small (or too big?) if will reset to font size 1
                 if (e.Delta > 0) 
                 { textBox.FontSize++; }
                 else
