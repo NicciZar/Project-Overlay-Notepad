@@ -33,6 +33,8 @@ namespace Project_Overlay_Notepad
 
         public string LocationAndName;
 
+        public bool pressed_ctrl;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,10 +48,22 @@ namespace Project_Overlay_Notepad
             LocationAndName = System.Reflection.Assembly.GetEntryAssembly().Location;
 
             this.Title = "Project Overlay Notepad " + AssVersion;
+
+            //defaults ctrl status to false
+            pressed_ctrl = false;
         }
 
         private void textBox_KeyDown(object sender, KeyEventArgs e)
         {
+            //checks if ctrl is pressed
+            if (e.Key == Key.LeftCtrl)
+            {
+                pressed_ctrl = true;
+            }
+            else
+            {
+                pressed_ctrl = false;
+            }
 
             if ((e.Key == Key.S) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
             {
@@ -150,19 +164,39 @@ namespace Project_Overlay_Notepad
 
         private void textBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            //Detects if Mousewheel + crtl is pressed = scrolls down or up. If font size gets too small (or too big?, tere seems to be a fixed max size for the font) if will reset to font size 1
             try
             {
-                //Detects if Mousewheel scrolls down or up. If font size gets too small (or too big?) if will reset to font size 1
-                if (e.Delta > 0) 
-                { textBox.FontSize++; }
+                if (pressed_ctrl == true)
+                {
+                    if (e.Delta > 0)
+                    { textBox.FontSize++; }
+                    else
+                    { textBox.FontSize--; }
+                }
                 else
-                { textBox.FontSize--; }
+                {
+
+                }
+
             }
             catch (Exception)
             {
                 textBox.FontSize = 1;
             }
+        }
 
+        private void textBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            //Checks if ctrl is still pressed (if the key is not pressed anymore)
+            if (e.Key == Key.LeftCtrl)
+            {
+                pressed_ctrl = false;
+            }
+            else
+            {
+                pressed_ctrl = true;
+            }
         }
     }
 }

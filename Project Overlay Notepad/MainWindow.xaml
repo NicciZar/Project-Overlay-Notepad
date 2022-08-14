@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Project Overlay Notepad" Height="100" Width="300" Topmost="True" MinHeight="100" MinWidth="300" >
     <Grid>
-        <TextBox x:Name="textBox" Margin="0,0,0,0" Text="..." TextWrapping="NoWrap" AcceptsReturn="True" AllowDrop="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AcceptsTab="True" KeyDown="textBox_KeyDown" MouseWheel="textBox_MouseWheel"/>
+        <TextBox x:Name="textBox" Margin="0,0,0,0" Text="..." TextWrapping="NoWrap" AcceptsReturn="True" AllowDrop="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AcceptsTab="True" KeyDown="textBox_KeyDown" KeyUp="textBox_KeyUp" MouseWheel="textBox_MouseWheel"/>
 
     </Grid>
 </Window>
