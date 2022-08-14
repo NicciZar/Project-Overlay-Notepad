@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.IO;
+using System.Runtime;
 
 namespace Project_Overlay_Notepad
 {
@@ -180,9 +181,11 @@ namespace Project_Overlay_Notepad
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //Ignores the fontsize 0 error (helps with not crashing the program)
                 textBox.FontSize = 1;
+                Console.WriteLine(ex.Message + " - has been ignored");
             }
         }
 
