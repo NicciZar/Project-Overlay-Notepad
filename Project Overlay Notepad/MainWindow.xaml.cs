@@ -44,7 +44,6 @@ namespace Project_Overlay_Notepad
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             AssVersion = fvi.FileVersion;
             textBox.FontSize = 12;
-            
 
             LocationAndName = System.Reflection.Assembly.GetEntryAssembly().Location;
 
