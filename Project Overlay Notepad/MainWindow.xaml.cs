@@ -40,17 +40,22 @@ namespace Project_Overlay_Notepad
         {
             InitializeComponent();
             textBox.Text = DefaultTextBoxText;
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-            AssVersion = fvi.FileVersion;
+
+            setWindowTitle();
+            
             textBox.FontSize = 12;
 
             LocationAndName = System.Reflection.Assembly.GetEntryAssembly().Location;
 
-            this.Title = "Project Overlay Notepad " + AssVersion;
+        }
 
-            //defaults ctrl status to false
-            pressed_ctrl = false;
+        private void setWindowTitle()
+        {
+            // Sets the title of the window to the current text in the textbox
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            AssVersion = fvi.FileVersion;
+            this.Title = "Project Overlay Notepad " + AssVersion;
         }
 
         private void textBox_KeyDown(object sender, KeyEventArgs e)
