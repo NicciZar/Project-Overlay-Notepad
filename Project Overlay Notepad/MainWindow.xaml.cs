@@ -34,7 +34,7 @@ namespace Project_Overlay_Notepad
 
         public string LocationAndName;
 
-        public bool pressed_ctrl;
+        public bool pressed_ctrl = false;
 
         public MainWindow()
         {
@@ -55,110 +55,92 @@ namespace Project_Overlay_Notepad
 
         private void textBox_KeyDown(object sender, KeyEventArgs e)
         {
-            //checks if ctrl is pressed
-            if (e.Key == Key.LeftCtrl)
+
+            switch (e.Key)
             {
-                pressed_ctrl = true;
-            }
-            else
-            {
-                pressed_ctrl = false;
-            }
+                case Key.LeftCtrl:
+                    pressed_ctrl = true;
+                    break;
 
-            if ((e.Key == Key.S) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
-            {
-                textBox.IsEnabled = false;
-                //ability to Save to a TextFile
-
-                SaveFileDialog saveFileDialog = new SaveFileDialog
-                {
-                    Filter = "Text file (*.txt)|*.txt",
-                    OverwritePrompt = true,
-                    ValidateNames = true
-                };
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    File.WriteAllText(saveFileDialog.FileName, textBox.Text);
-                    textBox.IsEnabled = true;
-                }
-                textBox.IsEnabled = true;
-            }
-
-            if ((e.Key == Key.L) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
-            {
-                textBox.IsEnabled = false;
-                //ability to Load TextFiles into the Textbox
-
-                OpenFileDialog openFileDialog = new OpenFileDialog
-                {
-                    Filter = "Text file (*.txt)|*.txt",
-                    ValidateNames = true
-                };
-                if (openFileDialog.ShowDialog() == true)
-                {
-
-
-                    if (textBox.Text == DefaultTextBoxText)
+                case Key.S when Keyboard.IsKeyDown(Key.LeftCtrl):
+                    textBox.IsEnabled = false;
+                    // ability to Save to a TextFile
+                    SaveFileDialog saveFileDialog = new SaveFileDialog
                     {
-                        textBox.Text = File.ReadAllText(openFileDialog.FileName);
-                        textBox.IsEnabled = true;
+                        Filter = "Text file (*.txt)|*.txt",
+                        OverwritePrompt = true,
+                        ValidateNames = true
+                    };
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        File.WriteAllText(saveFileDialog.FileName, textBox.Text);
+                    }
+                    textBox.IsEnabled = true;
+                    break;
+
+                case Key.L when Keyboard.IsKeyDown(Key.LeftCtrl):
+                    textBox.IsEnabled = false;
+                    // ability to Load TextFiles into the Textbox
+                    OpenFileDialog openFileDialog = new OpenFileDialog
+                    {
+                        Filter = "Text file (*.txt)|*.txt",
+                        ValidateNames = true
+                    };
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        if (textBox.Text == DefaultTextBoxText)
+                        {
+                            textBox.Text = File.ReadAllText(openFileDialog.FileName);
+                        }
+                        else
+                        {
+                            MessageBoxResult result = MessageBox.Show("There is content in your Editor! \n\nDo you want to replace it?", "Warning", MessageBoxButton.YesNo);
+                            if (result == MessageBoxResult.Yes)
+                            {
+                                textBox.Text = File.ReadAllText(openFileDialog.FileName);
+                            }
+                        }
+                    }
+                    textBox.IsEnabled = true;
+                    break;
+
+                case Key.D when Keyboard.IsKeyDown(Key.LeftCtrl):
+                    textBox.IsEnabled = false;
+                    // toggles DarkMode on/off
+                    if (!DarkMode)
+                    {
+                        DarkMode = true;
+                        textBox.Background = Brushes.Black;
+                        textBox.Foreground = Brushes.White;
                     }
                     else
                     {
-                        MessageBoxResult result = MessageBox.Show("There is content in your Editor! \n\nDo you want to replace it?", "Warning", MessageBoxButton.YesNo);
-                        switch (result)
-                        {
-                            case MessageBoxResult.Yes:
-                                textBox.Text = File.ReadAllText(openFileDialog.FileName);
-                                textBox.IsEnabled = true;
-                                break;
-
-                            case MessageBoxResult.No:
-                                textBox.IsEnabled = true;
-                                break;
-                        }
+                        DarkMode = false;
+                        textBox.Background = Brushes.White;
+                        textBox.Foreground = Brushes.Black;
                     }
-                }
-                textBox.IsEnabled = true;
-            }
-
-            if ((e.Key == Key.D) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
-            {
-                textBox.IsEnabled = false;
-                //toggles DarkMode on/off
-
-                if (DarkMode == false)
-                {
-                    DarkMode = true;
-                    textBox.Background = Brushes.Black;
-                    textBox.Foreground = Brushes.White;
                     textBox.IsEnabled = true;
-                }
-                else
-                {
-                    DarkMode = false;
-                    textBox.Background = Brushes.White;
-                    textBox.Foreground = Brushes.Black;
+                    break;
+
+                case Key.N when Keyboard.IsKeyDown(Key.LeftCtrl):
+                    textBox.IsEnabled = false;
+                    // Opens new Window with current executable
+                    System.Diagnostics.Process.Start(LocationAndName);
                     textBox.IsEnabled = true;
-                }
-                textBox.IsEnabled = true;
+                    break;
+
+                case Key.H when Keyboard.IsKeyDown(Key.LeftCtrl):
+                    textBox.IsEnabled = false;
+                    // Opens help/about menu
+                    MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\nCTRL + N = New Window\n\nMade by:\nNicolas HORST\nGitHub: \nNicciZar\nVersion: " + AssVersion, "Helpmenu", MessageBoxButton.OK);
+                    textBox.IsEnabled = true;
+                    break;
+
+                default:
+                    pressed_ctrl = false;
+                    break;
             }
 
-            if ((e.Key == Key.N) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
-            {
-                textBox.IsEnabled = false;
-                //Opens new Window with current executable
-                System.Diagnostics.Process.Start(LocationAndName);
-                textBox.IsEnabled = true;
-            }
-
-            if ((e.Key == Key.H) && (Keyboard.IsKeyDown(Key.LeftCtrl)))
-            {
-                textBox.IsEnabled = false;
-                //Opens help/about menu
-                MessageBox.Show("Hotkeys:\n\nCTRL + S = SAVE\nCTRL + L = LOAD\nCTRL + D = Darkmode (dark Editor)\nCTRL + N = New Window\n\nMade by:\nNicolas HORST\nGitHub: \nNicciZar\nVersion: " + AssVersion, "Helpmenu", MessageBoxButton.OK);
-                textBox.IsEnabled = true;
-            }
 
         }
 
@@ -167,18 +149,17 @@ namespace Project_Overlay_Notepad
             //Detects if Mousewheel + crtl is pressed = scrolls down or up. If font size gets too small (or too big?, tere seems to be a fixed max size for the font) if will reset to font size 1
             try
             {
-                if (pressed_ctrl == true)
+                if (pressed_ctrl)
                 {
                     if (e.Delta > 0)
-                    { textBox.FontSize++; }
+                    {
+                        textBox.FontSize++;
+                    }
                     else
-                    { textBox.FontSize--; }
+                    {
+                        textBox.FontSize--;
+                    }
                 }
-                else
-                {
-
-                }
-
             }
             catch (Exception ex)
             {
@@ -190,14 +171,10 @@ namespace Project_Overlay_Notepad
 
         private void textBox_KeyUp(object sender, KeyEventArgs e)
         {
-            //Checks if ctrl is still pressed (if the key is not pressed anymore)
+            // Resets pressed_ctrl only when the Ctrl key is released
             if (e.Key == Key.LeftCtrl)
             {
                 pressed_ctrl = false;
-            }
-            else
-            {
-                pressed_ctrl = true;
             }
         }
     }
